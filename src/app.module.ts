@@ -4,21 +4,15 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { connectDB } from './config/db';
+import { DatabaseModule } from './database/database.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true })],
+  imports: [ConfigModule.forRoot({ isGlobal: true }),
+    DatabaseModule,
+    UsersModule,],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements OnModuleInit {
-  constructor(private readonly configService: ConfigService) {}
-
-  async onModuleInit() {
-    const mongoUri = this.configService.get<string>('MONGO_URI');
-    if (!mongoUri) {
-      throw new Error('MONGO_URI is not defined in environment variables');
-    }
-    await connectDB(mongoUri);
-  }
-  
+export class AppModule  {
 }
