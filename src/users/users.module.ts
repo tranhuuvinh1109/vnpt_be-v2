@@ -6,7 +6,7 @@ import { usersProviders } from './users.providers';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, forwardRef(() => AuthModule)],
   controllers: [UsersController],
   providers: [UsersService, ...usersProviders],
   exports: [UsersService],
