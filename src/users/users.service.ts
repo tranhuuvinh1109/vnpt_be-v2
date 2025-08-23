@@ -26,8 +26,20 @@ export class UsersService {
     return this.userModel.findById(id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findByEmail(email: string, includePassword = false): Promise<UserDocument | null> {
+    let query = this.userModel.findOne({ email });
+    if (includePassword) query = query.select('+password');
+    return query.exec();
+  }
+
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      id,
+      updateUserDto,
+      { new: true }, 
+    );
+    return updatedUser;
   }
 
   remove(id: string) {
