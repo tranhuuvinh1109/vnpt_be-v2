@@ -10,20 +10,14 @@ import { AuthGuard } from './auth.guard';
 import { UsersModule } from 'src/users/users.module';
 import { usersProviders } from 'src/users/users.providers';
 import { DatabaseModule } from 'src/database/database.module';
+import { jwtConfig } from 'src/config/jwt.config';
 
 @Module({
   imports: [
     DatabaseModule,
     forwardRef(() => UsersModule),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('ACCESS_TOKEN_SECRET'),
-        signOptions: { expiresIn: configService.get<string>('ACCESS_TOKEN_LIFE') },
-      }),
-    }),
+    JwtModule.registerAsync(jwtConfig()),
   ],
   controllers: [AuthController],
   providers: [AuthService, AuthGuard, ...usersProviders],
