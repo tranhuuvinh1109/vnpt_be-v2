@@ -21,18 +21,18 @@ export class InforTypeService {
   async findOneByTypeName(type_name: string) {
     const found = await this.inforTypeModel.findOne({ type_name }).exec();
 
-    if (!found) return formatError(`InforType with type_name "${type_name}" not found`)
+    if (!found) throw formatError(`InforType with type_name "${type_name}" not found`)
     return found;
   }
 
   async update(id: string, dto: UpdateInforTypeDto) {
     const updated = await this.inforTypeModel.findByIdAndUpdate(id, dto, { new: true }).exec();
-    if (!updated) return formatError(`InforType with ID ${id} not found`)
+    if (!updated) throw formatError(`InforType with ID ${id} not found`)
     return updated;
   }
 
   async remove(id: string){
     const result = await this.inforTypeModel.findByIdAndDelete(id).exec();
-    if (!result) return formatError(`InforType with ID ${id} not found`)
+    if (!result) throw formatError(`InforType with ID ${id} not found`)
   }
 }
