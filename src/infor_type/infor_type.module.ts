@@ -6,8 +6,8 @@ import { inforProviders } from './info_type.providers';
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [InforTypeController,],
+  controllers: [InforTypeController],
   providers: [InforTypeService,  ...inforProviders],
-  exports: [InforTypeService],
+  // exports: [InforTypeService],
 })
 export class InforTypeModule {}
