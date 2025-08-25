@@ -11,7 +11,7 @@ import { InforDetailModule } from './infor_detail/infor_detail.module';
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    UsersModule, StationModule, InforTypeModule, InforDetailModule],
+    UsersModule, StationModule, InforTypeModule],
   controllers: [AppController],
   providers: [AppService],
 })
