@@ -15,19 +15,20 @@ export class InforDetailService {
   async create(createInforDetailDto: CreateInforDetailDto) {
     const { note, image, type } = createInforDetailDto;
 
-    const inforType = await this.inforTypeModel.findOneByTypeName(type);
+    // const inforType = await this.inforTypeModel.findOneByTypeName(type);
 
-    if (!inforType) {
-      throw new NotFoundException(`Infor type '${type}' not found`);
-    }
+    // if (!inforType) {
+    //   throw new NotFoundException(`Infor type '${type}' not found`);
+    // }
 
-    const newInforDetail = new this.inforDetailModel({
-      note,
-      image,
-      type: inforType._id,
-    });
+    // const newInforDetail = new this.inforDetailModel({
+    //   note,
+    //   image,
+    //   type: inforType._id,
+    // });
 
-    return newInforDetail.save();
+    // return newInforDetail.save();
+    return null
   }
 
   async findAll() {
