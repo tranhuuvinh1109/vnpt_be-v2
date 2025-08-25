@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { InforType, InforTypeDocument } from './schemas/infor_type.schema';
 import { CreateInforTypeDto } from './dto/create-infor_type.dto';
 import { UpdateInforTypeDto } from './dto/update-infor_type.dto';
-import { formatError } from 'src/utils';
+import { formatError } from '../utils';
 
 @Injectable()
 export class InforTypeService {
