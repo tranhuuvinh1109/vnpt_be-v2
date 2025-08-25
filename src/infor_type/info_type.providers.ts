@@ -5,7 +5,7 @@ import { InforTypeSchema } from './schemas/infor_type.schema';
 export const inforProviders = [
   {
     provide: 'INFOR_TYPE_MODEL',
-    useFactory: (connection: Connection) => connection.model('InforType', InforTypeSchema),
+    useFactory: (connection: Connection) => connection.model('infor_types', InforTypeSchema),
     inject: ['DATABASE_CONNECTION'],
   },
 ];
