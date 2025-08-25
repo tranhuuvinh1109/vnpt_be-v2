@@ -7,11 +7,12 @@ import { UsersModule } from './users/users.module';
 import { StationModule } from './station/station.module';
 import { InforTypeModule } from './infor_type/infor_type.module';
 import { InforDetailModule } from './infor_detail/infor_detail.module';
+import { ShiftModule } from './shift/shift.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    UsersModule, InforTypeModule, StationModule, InforDetailModule],
+    UsersModule, InforTypeModule, StationModule, InforDetailModule, ShiftModule],
   controllers: [AppController],
   providers: [AppService],
 })
