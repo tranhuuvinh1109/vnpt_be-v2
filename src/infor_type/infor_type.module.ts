@@ -8,6 +8,6 @@ import { inforProviders } from './info_type.providers';
   imports: [DatabaseModule],
   controllers: [InforTypeController],
   providers: [InforTypeService,  ...inforProviders],
-  exports: [InforTypeService],
+  // exports: [InforTypeService],
 })
 export class InforTypeModule {}
