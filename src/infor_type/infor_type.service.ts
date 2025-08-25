@@ -1,5 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { Model } from 'mongoose';
 import { InforType, InforTypeDocument } from './schemas/infor_type.schema';
 import { CreateInforTypeDto } from './dto/create-infor_type.dto';
