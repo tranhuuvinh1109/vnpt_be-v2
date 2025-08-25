@@ -7,7 +7,7 @@ export const databaseProviders = [
     useFactory: async (configService: ConfigService): Promise<Connection> => {
       const uri = configService.get<string>('MONGO_URI');
       if (!uri) throw new Error('MONGO_URI is not defined');
-      return mongoose.createConnection(uri); // Tạo connection riêng
+      return mongoose.createConnection(uri);
     },
     inject: [ConfigService],
   },
