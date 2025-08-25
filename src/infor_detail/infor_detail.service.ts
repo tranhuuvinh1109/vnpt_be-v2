@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { InforDetail, InforDetailDocument } from './schemas/infor_detail.schema';
 import { CreateInforDetailDto } from './dto/create-infor_detail.dto';
 import { UpdateInforDetailDto } from './dto/update-infor_detail.dto';
-import { InforTypeService } from 'src/infor_type/infor_type.service';
+import { InforTypeService } from '../infor_type/infor_type.service';
 
 @Injectable()
 export class InforDetailService {
@@ -15,20 +15,19 @@ export class InforDetailService {
   async create(createInforDetailDto: CreateInforDetailDto) {
     const { note, image, type } = createInforDetailDto;
 
-    // const inforType = await this.inforTypeModel.findOneByTypeName(type);
+    const inforType = await this.inforTypeModel.findOneByTypeName(type);
 
-    // if (!inforType) {
-    //   throw new NotFoundException(`Infor type '${type}' not found`);
-    // }
+    if (!inforType) {
+      throw new NotFoundException(`Infor type '${type}' not found`);
+    }
 
-    // const newInforDetail = new this.inforDetailModel({
-    //   note,
-    //   image,
-    //   type: inforType._id,
-    // });
+    const newInforDetail = new this.inforDetailModel({
+      note,
+      image,
+      type: inforType._id,
+    });
 
-    // return newInforDetail.save();
-    return null
+    return newInforDetail.save();
   }
 
   async findAll() {
