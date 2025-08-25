@@ -15,7 +15,6 @@ export class StationService {
     return created.save();
   }
 
-  @Public()
   async findAll(): Promise<Station[]> {
     return this.stationModel.find().exec();
   }
