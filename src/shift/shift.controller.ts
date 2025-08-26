@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ShiftService } from './shift.service';
 import { CreateShiftDto } from './dto/create-shift.dto';
 import { UpdateShiftDto } from './dto/update-shift.dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiQuery } from '@nestjs/swagger';
 import { CreateFollowDayDto } from './dto/create-shift-day-dto';
 
 @Controller('shift')
@@ -30,9 +30,12 @@ export class ShiftController {
     return this.shiftService.createFollowDay(createFollowDayDto);
   }
 
+
   @Get('order')
-  findAllOrder() {
-    return this.shiftService.findAllOrder();
+  @ApiQuery({ name: 'from', required: false, example: '2025-08-19T00:00:00.000+00:00' })
+  @ApiQuery({ name: 'to', required: false, example: '2025-08-19T00:00:00.000+00:00' })
+  findAllOrder(@Query('from') from?: string, @Query('to') to?: string) {
+    return this.shiftService.findAllOrder({ from, to });
   }
 
   @Get()

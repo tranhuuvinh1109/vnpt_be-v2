@@ -7,6 +7,7 @@ import { UpdateShiftDto } from './dto/update-shift.dto';
 import { InforDetailService } from 'src/infor_detail/infor_detail.service';
 import { InforTypeEnum, ShiftStatusEnum } from 'src/enum/common';
 import { CreateFollowDayDto } from './dto/create-shift-day-dto';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class ShiftService {
@@ -83,34 +84,47 @@ export class ShiftService {
       .exec();
   }
 
-  async findAllOrder() {
-    const shifts = await this.shiftModel
-      .find()
-      .select('-__v -createdAt -updatedAt')
-      .populate('infor_exist', '-__v -createdAt -updatedAt')
-      .populate('infor_during', '-__v -createdAt -updatedAt')
-      .populate('infor_pre', '-__v -createdAt -updatedAt')
-      .populate('station', '-__v -createdAt -updatedAt')
-      .populate('create_user', '-__v -createdAt -updatedAt')
-      .populate('assign_user', '-__v -createdAt -updatedAt')
-      .sort({ date: 1 })
-      .exec();
+  async findAllOrder(query: { from?: string; to?: string }) {
+    const { from, to } = query;
 
-    const grouped = shifts.reduce((acc, shift) => {
-      const dateKey = new Date(shift.date).toISOString().split('T')[0];
+  const filter: any = {};
+  if (from || to) {
+    filter.date = {};
+    if (from) {
+      filter.date.$gte = dayjs(from, 'DD-MM-YYYY').startOf('day').toDate();
+    }
+    if (to) {
+      filter.date.$lte = dayjs(to, 'DD-MM-YYYY').endOf('day').toDate();
+    }
+  }
 
-      if (!acc[dateKey]) {
-        acc[dateKey] = {
-          date: dateKey,
-          shifts: [],
-        };
-      }
+  const shifts = await this.shiftModel
+    .find(filter)
+    .select('-__v -createdAt -updatedAt')
+    .populate('infor_exist', '-__v -createdAt -updatedAt')
+    .populate('infor_during', '-__v -createdAt -updatedAt')
+    .populate('infor_pre', '-__v -createdAt -updatedAt')
+    .populate('station', '-__v -createdAt -updatedAt')
+    .populate('create_user', '-__v -createdAt -updatedAt')
+    .populate('assign_user', '-__v -createdAt -updatedAt')
+    .sort({ date: 1 })
+    .exec();
 
-      acc[dateKey].shifts.push(shift);
-      return acc;
-    }, {});
+  const grouped = shifts.reduce((acc, shift) => {
+    const dateKey = new Date(shift.date).toISOString().split('T')[0];
 
-    return Object.values(grouped);
+    if (!acc[dateKey]) {
+      acc[dateKey] = {
+        date: dateKey,
+        shifts: [],
+      };
+    }
+
+    acc[dateKey].shifts.push(shift);
+    return acc;
+  }, {} as Record<string, { date: string; shifts: any[] }>);
+
+  return Object.values(grouped);
   }
 
   async findOne(id: string): Promise<Shift> {

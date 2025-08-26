@@ -19,7 +19,7 @@ export class UsersService {
   }
 
   findAll() {
-    return this.userModel.find();
+    return this.userModel.find().where('role').equals(1);
   }
 
   findOne(id: string) {
