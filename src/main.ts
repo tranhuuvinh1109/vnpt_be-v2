@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/sw
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.use(cors());
+  app.use(cors({ origin: ['*'] }));
   const config = new DocumentBuilder()
     .setTitle('My API Docs')
     .setDescription('API documentation for my project')
