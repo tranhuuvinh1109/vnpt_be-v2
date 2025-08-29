@@ -5,7 +5,7 @@ import { UpdateShiftDto } from './dto/update-shift.dto';
 import { ApiBody, ApiQuery } from '@nestjs/swagger';
 import { CreateFollowDayDto } from './dto/create-shift-day-dto';
 
-@Controller('shift')
+@Controller('api/shift')
 export class ShiftController {
   constructor(private readonly shiftService: ShiftService) {}
 
