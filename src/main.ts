@@ -1,11 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import cors from 'cors';
 import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.use(cors({ origin: ['*'] }));
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: '*',
+    credentials: true,
+  });
+
   const config = new DocumentBuilder()
     .setTitle('My API Docs')
     .setDescription('API documentation for my project')
@@ -23,14 +29,14 @@ async function bootstrap() {
   const swOptions: SwaggerCustomOptions = {
     swaggerOptions: {
       persistAuthorization: true,
-      // defaultModelsExpandDepth: -1,
     },
   };
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document, swOptions);
 
-  console.log("APP IS RUNNING ON PORT", (process.env.PORT ?? 3000))
-  
-  await app.listen(process.env.PORT ?? 3000);
+  const port = process.env.PORT ?? 3000;
+  console.log(`APP IS RUNNING ON PORT ${port}`);
+  await app.listen(port);
 }
 bootstrap();
